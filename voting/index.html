@@ -1,0 +1,1103 @@
+<!doctype html>
+<html lang="en" data-project="voting">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Voting Simulation in VR · Shubham Chomal</title>
+<meta name="description" content="A step-by-step guide to a polling-station simulation in virtual reality: a school gym with voting booths and swappable signage, built in Unreal Engine 5 and run on a Meta Quest 2 (ISE 521 Human Systems Engineering, URI).">
+<meta property="og:title" content="Voting simulation in virtual reality">
+<meta property="og:description" content="Polling station VR simulation instructional guide: choosing the engine, system requirements, setup, launching the simulation, importing assets, and changing the signage.">
+<meta property="og:image" content="../assets/img/voting/hero-gym.webp">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><span></span></div>
+
+<header class="bar">
+  <div style="min-width:0"><span class="cur">VR voting simulation</span><div class="t">A polling station in VR</div></div>
+  <button class="btn-ghost" type="button" data-toc-open aria-label="Open contents">Contents</button>
+</header>
+<div class="scrim"></div>
+
+<div class="layout">
+  <!-- ===================== COLUMN 1 · CONTENTS ===================== -->
+  <nav class="toc" aria-label="Contents">
+    <a class="toc-home" href="../">← Shubham Chomal</a>
+    <div class="toc-head"><span class="k">Instructional guide · 2025</span><span class="t">VR voting simulation</span></div>
+    <ol class="toc-list" id="toc-list"></ol>
+    <div class="toc-foot">
+      <div class="toc-meter"><span></span></div>
+      <div class="toc-tools"><span data-pct>0%</span><a href="#top" class="btn-ghost" style="text-decoration:none">Top ↑</a></div>
+    </div>
+  </nav>
+
+  <main class="doc" id="main">
+    <!-- ===================== TITLE ===================== -->
+    <header class="hero" id="top">
+      <figure class="hero-figure" aria-hidden="true"><img width="1920" height="1080" src="../assets/img/voting/fig-8-3-rotate.webp" alt="" style="object-position:50% 50%"></figure>
+      <div class="wrap">
+        <div class="hero-head">
+          <div class="kicker lines"><span><b>Project 03</b></span><span>Instructional guide</span><span>ISE 521 Human Systems Engineering</span><span>URI Votes · CCD</span><span>2025</span></div>
+          <h1 class="long">Polling station <em>VR simulation</em> instructional guide</h1>
+          <p class="formal">Voting simulation in virtual reality</p>
+        </div>
+        <dl class="meta-grid cols-3">
+          <div><dt>Author</dt><dd>Shubham Chomal</dd></div>
+          <div><dt>Course</dt><dd><span class="person">ISE 521 Human Systems Engineering<span class="dept">URI Votes · CCD</span></span></dd></div>
+          <div><dt>Built with</dt><dd><span class="person">Unreal Engine 5.5</span><span class="person">Meta Quest 2</span><span class="person">SteamVR</span><span class="person">Blender</span><span class="person">Fab</span></dd></div>
+        </dl>
+      </div>
+      <span class="scroll-cue">Scroll</span>
+    </header>
+
+    <!-- ===================== 00 WHY A VR ENVIRONMENT ===================== -->
+    <section class="chapter" id="ch-why" data-num="00" data-title="Why a VR Environment?" data-short="Why VR">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">00</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 00 · What you doing?</span>
+          <h2 class="op-title">Why a VR Environment?</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="about">
+          <h2 class="sec-h" data-short="About this Guide">About this Guide</h2>
+          <p>This guide shows how to set up the complete <dfn class="term" data-def="vr">VR</dfn> voting simulation, made with <dfn class="term" data-def="ue">Unreal Engine</dfn>, on your computer. It is a comprehensive tutorial: you may have to open a lot of tabs and make your own decisions along the way, but it should help you with most of the steps.</p>
+          <p>Pictures, explanations, tips and notes run down the middle column; the steps to follow, the figure titles and the definitions sit beside them in the right-hand column (below them on a phone). Click a picture to enlarge it. Underlined terms open a definition in the margin, and the glossary at the end collects them all.</p>
+          <figure class="viz wide" id="metrics-voting" aria-label="The guide in four numbers">
+            <div class="metrics">
+              <div class="metric"><svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6h10M10 12h10M10 18h10"/><path d="M3.5 6l1.5 1.5L7.5 4.5M3.5 12l1.5 1.5 2.5-3M3.5 18l1.5 1.5 2.5-3"/></svg><span class="mk">Launch steps</span><span class="mv">12</span><span class="ml">steps, in order, every time you run the simulation (Chapter 06)</span></div>
+              <div class="metric"><svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="7" width="19" height="10" rx="3"/><circle cx="8" cy="12" r="2.2"/><circle cx="16" cy="12" r="2.2"/></svg><span class="mk">Frame rate</span><span class="mv">90<small>FPS</small></span><span class="ml">or more, rendered twice at once: one high-resolution view for each eye</span></div>
+              <div class="metric"><svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M11 14h6"/><circle cx="7" cy="14" r=".6"/></svg><span class="mk">Base install</span><span class="mv">30<small>GB</small></span><span class="ml">minimum for Unreal Engine 5, before plugins, assets and templates</span></div>
+              <div class="metric"><svg class="mi" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v4M12 3v4M6 7h8v3.5a4 4 0 0 1-8 0V7z"/><path d="M10 14.5V18a3 3 0 0 0 3 3h7"/></svg><span class="mk">Cable speed</span><span class="mv">5<small>Gbps</small></span><span class="ml">or faster for a Quest 2 or Quest 3 in PC VR mode</span></div>
+            </div>
+          </figure>
+        </section>
+
+        <section class="sec" id="why-vr">
+          <h2 class="sec-h" data-short="The Polling Station">The Polling Station</h2>
+          <figure class="fig inline" id="fig-0-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 0.1</span><span class="cap-t">A user immersed in a virtual scene through a VR headset.</span></figcaption>
+            <img width="1200" height="800" src="../assets/img/voting/fig-0-1-vr-user.webp" alt="A woman wearing a tethered VR headset, shown against the lakeside scene she is seeing in the headset." loading="lazy">
+          </figure>
+          <p>For this project, we are creating a virtual simulation of a school gymnasium to replicate a voting station environment. The primary goal is to study how people navigate the voting process using <dfn class="term" data-def="signage">signage</dfn>, focusing specifically on the effectiveness of different signage layouts in a <dfn class="term" data-def="polling">polling station</dfn>.</p>
+          <p>It is a flexible, editable 3D environment that can be used by anyone, anywhere. We will be experimenting with various signage placements. Each sign is printed on letter-sized paper and includes both <dfn class="term" data-def="iconography">iconography</dfn> and informational text. Some of these signs are accompanied by directional arrows, also printed on letter-sized paper, mounted on standing sign boards positioned next to the main signs to reinforce their guidance.</p>
+          <p>A human user will experience the environment firsthand, so achieving a realistic and <dfn class="term" data-def="immersion">immersive</dfn> setting is essential.</p>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 01 CHOOSING THE ENGINE ===================== -->
+    <section class="chapter" id="ch-engine" data-num="01" data-title="Choosing the Engine" data-short="Choosing the Engine">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">01</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 01 · Choose your fighter</span>
+          <h2 class="op-title">Choosing the Engine</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="unity-or-unreal">
+          <h2 class="sec-h" data-short="Unity or Unreal Engine"><span class="hn">1.1</span>Unity or Unreal Engine</h2>
+          <figure class="fig inline" id="fig-1-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 1.1</span><span class="cap-t">The 16th Unity Awards, Best AR/VR Game winner: <i>Assassin’s Creed Nexus VR</i> by Red Storm Entertainment | Ubisoft (<a class="cite ay" data-ref="unityawards">Unity Awards</a>).</span><span class="cap-h">A benchmark for what Unity renders in VR: the player sees their own hands and weapon in the first person.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-1-1-ac-nexus.webp" alt="First-person VR view on a rooftop: the player's gloved hand reaches toward a guard with a sword, church spires behind." loading="lazy">
+          </figure>
+          <p>Before starting development, it is essential to identify the target platform or device for your VR simulation or game. Different <dfn class="term" data-def="gameengine">game engines</dfn> offer varying levels of performance, support, and compatibility with specific hardware. When building a 3D VR environment, <dfn class="term" data-def="unity">Unity</dfn> and <dfn class="term" data-def="ue">Unreal Engine</dfn> are the two most widely used platforms.</p>
+          <p>One key consideration is the programming language each engine uses. Unity relies primarily on <dfn class="term" data-def="csharp">C#</dfn>, while Unreal Engine uses <dfn class="term" data-def="cpp">C++</dfn>. If you are not familiar with coding, this can significantly influence your choice. We chose Unreal Engine (UE) because it offers a powerful alternative to traditional coding: the <dfn class="term" data-def="blueprints">Blueprint</dfn> visual scripting system. Blueprints allow users to create complex logic using a node-based interface without writing code, making UE more accessible for non-programmers. Unity has a comparable node-based tool, <a class="ext" href="https://unity.com/products/unity-visual-scripting" target="_blank" rel="noopener">Unity Visual Scripting</a> (formerly Bolt, built into the editor since Unity 2021.1), but it is less widely used; most Unity tutorials and VR toolkits still assume C# (<a class="cite ay" data-ref="unityvs">Unity Technologies</a>).</p>
+          <figure class="fig inline" id="fig-1-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 1.2</span><span class="cap-t">“Lumen in the Land of Nanite,” the demo that revealed Unreal Engine 5 in 2020 (<a class="cite ay" data-ref="prographers2022">Prographers 2022</a>).</span><span class="cap-h">Compare the depth of carved detail and the soft bounced light with Fig. 1.1.</span></figcaption>
+            <img width="1536" height="864" src="../assets/img/voting/fig-1-2-ue5-demo.webp" alt="A richly carved stone temple facade set into a canyon wall, lit by warm daylight." loading="lazy">
+          </figure>
+          <p>Another critical factor is visual fidelity. Unreal Engine is generally known for its higher-quality graphics out of the box, making it a strong candidate for simulations where realism and immersive visuals are important, such as our voting environment scenario.</p>
+        </section>
+
+        <section class="sec" id="nanite">
+          <h2 class="sec-h" data-short="Nanite"><span class="hn">1.2</span>Nanite</h2>
+          <figure class="fig inline" id="fig-1-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 1.3</span><span class="cap-t">One canyon wall in Nanite’s debug views.</span><span class="cap-h">Left: the final render. Middle: the clusters of triangles Nanite streams, one color each. Right: the individual triangles, far too many for a traditional mesh.</span></figcaption>
+            <img width="1200" height="630" src="../assets/img/voting/fig-1-3-nanite.webp" alt="A rocky canyon shown three ways: rendered on the left, as many small colored patches in the middle, and as a dense triangle wireframe on the right." loading="lazy">
+          </figure>
+          <p>Unreal Engine stands out as the most suitable choice for our VR project due to its combination of powerful features, ease of use, and high-quality visual output. Two of the major technologies that set UE apart are Lumen and Nanite.</p>
+          <p><dfn class="term" data-def="nanite">Nanite</dfn> is UE’s virtualized geometry system that allows artists to import film-quality assets with millions of polygons directly into the engine without the need for optimization or manual <dfn class="term" data-def="lod">Level of Detail (LOD)</dfn> setup. It intelligently streams and renders only the detail visible to the camera, drastically improving performance while maintaining extremely high visual fidelity. This means we can create realistic, complex environments without putting a heavy load on the system.</p>
+        </section>
+
+        <section class="sec" id="lumen">
+          <h2 class="sec-h" data-short="Lumen"><span class="hn">1.3</span>Lumen</h2>
+          <figure class="fig inline" id="fig-1-4">
+            <figcaption class="note cap"><span class="cap-n">Fig. 1.4</span><span class="cap-t">A canyon lit by Lumen.</span><span class="cap-h">Sunlight lands on the floor, then bounces to fill the shadowed walls with warm light: global illumination computed in real time, with nothing baked.</span></figcaption>
+            <img width="1600" height="845" src="../assets/img/voting/fig-1-4-lumen.webp" alt="A narrow rocky canyon with a shaft of sunlight hitting the sandy floor and soft light filling the shadowed walls." loading="lazy">
+          </figure>
+          <p><dfn class="term" data-def="lumen">Lumen</dfn> is UE’s <dfn class="term" data-def="gi">global illumination</dfn> and reflections system, which allows real-time lighting updates. It reacts dynamically to changes in light, movement, or geometry, meaning we do not need to spend hours <dfn class="term" data-def="baking">baking lighting</dfn>. Lumen helps achieve lifelike lighting, shadows, and reflections, contributing significantly to realism, which is especially important in immersive VR experiences.</p>
+          <p>Together, Nanite and Lumen bring a high level of realism to large or open environments while sparing you hand-made LODs and long lighting bakes. Both are demanding on the graphics card, though, which matters in VR.</p>
+          <div class="callout c-info"><span class="ck">Note</span><p>Nanite and Lumen were designed for flat screens first. In VR (stereo) rendering, Lumen is still experimental: it costs a lot of GPU time at 90 FPS and can show artifacts in one eye. Test the scene in VR Preview (section 6.11), and if the frame rate drops or one eye flickers, switch to baked lighting.</p></div>
+        </section>
+
+        <section class="sec" id="blueprints">
+          <h2 class="sec-h" data-short="Blueprints and the Verdict"><span class="hn">1.4</span>Blueprints and the Verdict</h2>
+          <figure class="fig inline" id="fig-1-5">
+            <figcaption class="note cap"><span class="cap-n">Fig. 1.5</span><span class="cap-t">A Blueprint event graph (BP_BasePickup).</span><span class="cap-h">Read left to right. White wires set the order: On Component Begin Overlap, Cast To ThirdPersonCharacter, Play Sound 2D, Spawn System at Location, Print String, DestroyActor. Colored wires carry data between nodes.</span></figcaption>
+            <img width="1122" height="346" src="../assets/img/voting/fig-1-5-blueprint.webp" alt="A Blueprint graph named BP_BasePickup: a chain of connected nodes from an overlap event to Destroy Actor." loading="lazy">
+          </figure>
+          <p>Moreover, Unreal Engine offers <a class="ext" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/blueprints-visual-scripting-in-unreal-engine" target="_blank" rel="noopener">Blueprints</a>, a visual scripting system that allows us to build complex interactions without writing traditional code. This lowers the learning curve significantly while still enabling powerful logic and behaviors.</p>
+          <p>To learn Blueprints, start with Epic’s <a class="ext" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/introduction-to-blueprints-visual-scripting-in-unreal-engine" target="_blank" rel="noopener">Introduction to Blueprints</a> (<a class="cite ay" data-ref="epicbpintro">Epic Games</a>), then build a first graph with the <a class="ext" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/quick-start-guide-for-blueprints-visual-scripting-in-unreal-engine" target="_blank" rel="noopener">Blueprints Quick Start Guide</a> (<a class="cite ay" data-ref="epicbpquick">Epic Games</a>). The <a class="ext" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/nodes-in-unreal-engine" target="_blank" rel="noopener">Nodes</a> page explains the building blocks seen in Figure 1.5 (<a class="cite ay" data-ref="epicnodes">Epic Games</a>), and <a class="ext" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/blueprint-best-practices-in-unreal-engine" target="_blank" rel="noopener">Blueprint Best Practices</a> helps once your graphs grow (<a class="cite ay" data-ref="epicbpbest">Epic Games</a>).</p>
+          <p>Because of these advantages (no coding requirement, superior graphics, real-time lighting, and excellent support for Meta (Oculus) devices), Unreal Engine clearly wins the comparison. Our available headsets include the Oculus Rift, Meta Quest 2, and Meta Quest 3, and UE integrates seamlessly with all of them. Therefore, we will proceed with Unreal Engine for the development of our VR voting environment.</p>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 02 SYSTEM REQUIREMENTS ===================== -->
+    <section class="chapter" id="ch-requirements" data-num="02" data-title="System Requirements" data-short="System Requirements">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">02</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 02 · Under the hood</span>
+          <h2 class="op-title">System Requirements</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="computer">
+          <h2 class="sec-h" data-short="Computer Hardware &amp; Software"><span class="hn">2.1</span>Computer Hardware &amp; Software</h2>
+          <figure class="fig inline" id="fig-2-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 2.1</span><span class="cap-t">A desktop PC built for VR.</span><span class="cap-h">The large graphics card does most of the VR rendering; the liquid cooling keeps the processors fast under long, heavy loads.</span></figcaption>
+            <img width="919" height="517" src="../assets/img/voting/fig-2-1-pc.webp" alt="A white desktop PC case with glass panels, showing a large graphics card and liquid-cooling tubes." loading="lazy">
+          </figure>
+          <p>Creating and running a VR simulation is significantly more demanding than traditional 3D applications because it requires rendering two high-resolution views simultaneously, one for each eye, at high frame rates (typically 90 <dfn class="term" data-def="fps">FPS</dfn> or more) to ensure a smooth and comfortable experience. Any lag, stuttering, or dropped frames can break immersion and even cause <dfn class="term" data-def="vrsick">motion sickness</dfn> for the user. A powerful computer with a high-end <dfn class="term" data-def="cpu">CPU</dfn>, <dfn class="term" data-def="gpu">GPU</dfn>, and sufficient <dfn class="term" data-def="ram">RAM</dfn> ensures that the environment runs smoothly, assets load quickly, and real-time interactions remain responsive. Moreover, during development, a strong system reduces compilation and rendering times, allowing creators to iterate faster and test changes efficiently. In short, good hardware is not just about performance; it is essential for stability, realism, and user comfort in VR.</p>
+          <p>To maintain smooth performance in VR, especially in real-time interactions, it is critical to balance visual fidelity with performance. Poor optimization can result in lag, stuttering, or even crashes during the simulation. Therefore, maintaining reasonable <dfn class="term" data-def="texture">texture</dfn> resolutions, minimizing unnecessary asset duplication, and ensuring proper Level of Detail (LOD) usage are essential practices. Compatibility between Unreal Engine, your VR headset (such as Meta Quest, HTC Vive, or Valve Index), and any <dfn class="term" data-def="sdk">SDKs</dfn> or <dfn class="term" data-def="driver">drivers</dfn> is also crucial for a stable experience. Epic publishes the minimum and recommended specifications on its <a class="ext" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/hardware-and-software-specifications-for-unreal-engine" target="_blank" rel="noopener">hardware and software page</a>; compare them with your computer (<a class="cite ay" data-ref="epicspecs">Epic Games</a>).</p>
+        </section>
+
+        <section class="sec" id="headset">
+          <h2 class="sec-h" data-short="VR Headset"><span class="hn">2.2</span>VR Headset</h2>
+          <figure class="fig inline" id="fig-2-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 2.2</span><span class="cap-t"><span class="cap-l">(a) A range of VR headsets</span><span class="cap-l">(b) The Apple Vision Pro</span></span><span class="cap-h">Headsets differ in exactly the factors listed in this section: tracking, display, field of view, comfort, PC support and whether a cable is needed.</span></figcaption>
+            <div class="parts">
+              <div class="parts-row"><div class="part" style="--ar:1.414"><img width="2000" height="1414" src="../assets/img/voting/fig-2-2-headsets.webp" alt="(a) Nine VR headsets of different makes arranged in a grid on a teal background." loading="lazy"><span class="pl" aria-hidden="true">a</span></div></div>
+              <div class="parts-row"><div class="part" style="--ar:1.486"><img width="1760" height="1184" src="../assets/img/voting/fig-2-2-vision-pro.webp" alt="(b) An Apple Vision Pro headset on display, with a blurred crowd behind it." loading="lazy"><span class="pl" aria-hidden="true">b</span></div></div>
+            </div>
+          </figure>
+          <p>When selecting a <dfn class="term" data-def="hmd">VR headset</dfn> for simulation development, it is important to consider both hardware capabilities and software compatibility. Key factors include:</p>
+          <ul>
+            <li><b>Tracking system.</b> Look for <dfn class="term" data-def="sixdof">6DoF</dfn> (six degrees of freedom) tracking, which allows full positional and rotational movement. <dfn class="term" data-def="insideout">Inside-out tracking</dfn> (e.g., the Meta Quest series) is more portable, while <dfn class="term" data-def="outsidein">outside-in</dfn> tracking (e.g., Valve Index with base stations) can offer higher accuracy.</li>
+            <li><b>Display quality.</b> High resolution and <dfn class="term" data-def="refresh">refresh rate</dfn> (ideally 90 Hz or more) are crucial for realism and comfort, reducing motion blur and eye strain.</li>
+            <li><b>Field of view (FoV).</b> A wider <dfn class="term" data-def="fov">FoV</dfn> enhances immersion by giving a more natural viewing experience.</li>
+            <li><b>Comfort &amp; ergonomics.</b> Especially important for longer testing sessions: consider weight distribution, adjustability, and headset padding.</li>
+            <li><b>PC compatibility &amp; SDK support.</b> Ensure the headset works well with Unreal Engine via <dfn class="term" data-def="openxr">OpenXR</dfn>, <dfn class="term" data-def="steamvr">SteamVR</dfn>, or proprietary plugins like the Meta XR Plugin.</li>
+            <li><b>Wireless vs. wired.</b> Wired headsets generally offer better performance and stability, while wireless headsets provide more freedom of movement but may introduce <dfn class="term" data-def="latency">latency</dfn>.</li>
+            <li><b>Developer tools &amp; community support.</b> Headsets with strong developer ecosystems (e.g., Meta, HTC, Valve) often come with better documentation, tutorials, and asset support.</li>
+          </ul>
+          <p>Ultimately, the right headset should align with your simulation’s technical needs, your development workflow, and the target user experience.</p>
+        </section>
+
+        <section class="sec" id="cable">
+          <h2 class="sec-h" data-short="VR Cable"><span class="hn">2.3</span>VR Cable</h2>
+          <figure class="fig inline" id="fig-2-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 2.3</span><span class="cap-t">Meta Quest Link Cable (<a class="cite ay" data-ref="metacable">Meta Store</a>).</span><span class="cap-h">USB-C on both ends. The right-angled end goes into the headset, so the cable runs back along the strap.</span></figcaption>
+            <img width="1308" height="1308" src="../assets/img/voting/fig-2-3-link-cable.webp" alt="A long black coiled cable with a straight USB-C plug on one end and a right-angled USB-C plug on the other." loading="lazy">
+          </figure>
+          <p>A high-speed VR cable is responsible for transmitting large volumes of data between the computer and the VR headset in real time. This includes high-resolution video, audio, and sensor input data (like head and hand tracking). Using a high-bandwidth cable ensures:</p>
+          <ul>
+            <li><b>Low latency.</b> Reduces the delay between movement and visual response, which is critical for immersion and motion comfort.</li>
+            <li><b>High frame rates &amp; resolution.</b> Supports the demanding video output required by modern headsets (often dual displays at 90+ FPS).</li>
+            <li><b>Stable data transfer.</b> Prevents interruptions or lag during gameplay or simulation, especially when streaming large scenes or high-fidelity assets.</li>
+            <li><b>Power delivery.</b> Some cables also power the headset, making reliable current flow essential.</li>
+          </ul>
+          <p>For example, headsets like the <dfn class="term" data-def="quest">Meta Quest 2 or Quest 3</dfn> running PC VR over a cable (Quest Link) require a <dfn class="term" data-def="usb">USB 3 (USB-C)</dfn> cable capable of 5 <dfn class="term" data-def="gbps">Gbps</dfn> or higher speeds; Air Link, the wireless alternative, needs a fast Wi-Fi router instead. A lower-quality or slower cable may result in degraded visuals, audio dropouts, or disconnections. Meta sells a dedicated <a class="ext" href="https://www.meta.com/quest/accessories/link-cable/" target="_blank" rel="noopener">Quest Link Cable</a> (<a class="cite ay" data-ref="metacable">Meta Store</a>).</p>
+        </section>
+
+        <section class="sec" id="optimization">
+          <h2 class="sec-h" data-short="Optimization Best Practices"><span class="hn">2.4</span>Optimization Best Practices</h2>
+          <figure class="fig inline" id="fig-2-4">
+            <figcaption class="note cap"><span class="cap-n">Fig. 2.4</span><span class="cap-t">One scene, five render views.</span><span class="cap-h">Two strips are the finished image; the other three are diagnostic views (colored geometry, a heat map and depth) of the kind used to find what makes a scene expensive to render.</span></figcaption>
+            <img width="1080" height="608" src="../assets/img/voting/fig-2-4-render-passes.webp" alt="A restaurant interior shown as five vertical strips: two normal renders and three diagnostic views in bright false colors and grayscale." loading="lazy">
+          </figure>
+          <p>When developing and running a VR simulation in Unreal Engine 5, system requirements depend heavily on the scale of the environment and how well <dfn class="term" data-def="asset">assets</dfn> are optimized. Larger environments and high-resolution textures require significantly more computing power, especially GPU resources. If assets are duplicated without optimization, the project size increases, leading to slower load times and a heavier system load overall.</p>
+          <p>The checklist in Table 2.1 brings the requirements of this chapter together.</p>
+        </section>
+
+        <section class="sec" id="checklist">
+          <h2 class="sec-h" data-short="Requirements Checklist"><span class="hn">2.5</span>VR Development System Requirements Checklist</h2>
+          <figure class="tbl" id="tab-2-1">
+            <figcaption class="note cap"><span class="cap-n">Table 2.1</span><span class="cap-t">VR development system requirements checklist.</span><span class="cap-h">Four groups: the computer’s core hardware, its software, display and output (including the headset and cable), and optimization practices for the project itself. Tick each item as you confirm it; the bar above the table counts what is ready, and your ticks are saved in this browser.</span></figcaption>
+            <div class="ck-bar" id="ck-bar" hidden><span class="ck-meter" aria-hidden="true"><span></span></span><span class="ck-count" aria-live="polite"></span><button class="btn-ghost" type="button" data-ck-hide aria-pressed="false">Hide ticked</button><button class="btn-ghost" type="button" data-ck-reset>Reset</button></div>
+            <div class="tbl-scroll">
+              <table class="compact checklist" id="checklist">
+                <thead><tr><th scope="col">Item</th><th scope="col">Requirement</th></tr></thead>
+                <tbody>
+                  <tr class="grp"><th colspan="2" scope="rowgroup">Core hardware</th></tr>
+                  <tr><td>CPU</td><td>Intel i7 / AMD Ryzen 7 or higher</td></tr>
+                  <tr><td>GPU</td><td>NVIDIA RTX 3070 or higher (RTX 3080/4090 recommended for high-fidelity environments)</td></tr>
+                  <tr><td>RAM</td><td>Minimum 16 GB (32 GB recommended)</td></tr>
+                  <tr><td>Storage</td><td><dfn class="term" data-def="ssd">SSD</dfn> with at least 1 TB free space</td></tr>
+                  <tr><td>Power supply unit</td><td>Sufficient wattage to support the GPU and peripherals (<dfn class="term" data-def="psu">PSU</dfn>)</td></tr>
+                  <tr><td>Cooling</td><td>Proper cooling solution for sustained performance</td></tr>
+                  <tr class="grp"><th colspan="2" scope="rowgroup">Software compatibility</th></tr>
+                  <tr><td>OS</td><td>Windows 10/11 (64-bit)</td></tr>
+                  <tr><td>Unreal Engine 5</td><td>The project’s engine version installed (section 3.4)</td></tr>
+                  <tr><td>VR SDKs / plugins</td><td>Compatible SDKs and plugins (e.g., SteamVR, Meta XR Plugin, OpenXR)</td></tr>
+                  <tr><td>Graphics drivers</td><td>Updated NVIDIA/AMD drivers</td></tr>
+                  <tr><td>Headset drivers</td><td>Correct runtime for your VR headset installed and configured</td></tr>
+                  <tr class="grp"><th colspan="2" scope="rowgroup">Display &amp; output</th></tr>
+                  <tr><td>Monitor</td><td>High-resolution display for editing (1440p or 4K ideal)</td></tr>
+                  <tr><td>Ports</td><td><dfn class="term" data-def="displayport">HDMI/DisplayPort</dfn> for headset connection</td></tr>
+                  <tr><td>USB ports</td><td>At least 3× USB 3.0 / USB-C ports (for headset, tracking sensors, and accessories)</td></tr>
+                  <tr><td>VR headset</td><td>High resolution, minimum 90 Hz refresh rate</td></tr>
+                  <tr><td>VR cable</td><td>5 Gbps and 10 ft+ in length</td></tr>
+                  <tr class="grp"><th colspan="2" scope="rowgroup">Optimization best practices</th></tr>
+                  <tr><td>Scale</td><td>Environment scaled appropriately for performance</td></tr>
+                  <tr><td>Textures</td><td>Textures optimized (no unnecessary 4K textures)</td></tr>
+                  <tr><td>Repeated assets</td><td><dfn class="term" data-def="instancing">Instanced</dfn>/<dfn class="term" data-def="staticmesh">static meshes</dfn> used for repeated assets</td></tr>
+                  <tr><td>LOD</td><td>Level of Detail settings applied to complex meshes</td></tr>
+                  <tr><td>Lighting</td><td>Lighting baked or optimized for real time</td></tr>
+                  <tr><td>Testing</td><td>Project tested in VR Preview before packaging</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </figure>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 03 SETTING UP THE COMPUTER ===================== -->
+    <section class="chapter" id="ch-setup" data-num="03" data-title="Setting Up the Computer" data-short="Setting Up the Computer">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">03</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 03 · Putting it together</span>
+          <h2 class="op-title">Setting Up the Computer</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="credentials">
+          <h2 class="sec-h" data-short="Credentials"><span class="hn">3.1</span>Create a Consistent Set of Credentials</h2>
+          <figure class="fig inline" id="fig-3-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 3.1</span><span class="cap-t">The Meta log-in window.</span><span class="cap-h">Every application in this chapter asks you to log in; use the same credentials each time.</span></figcaption>
+            <img width="1127" height="845" src="../assets/img/voting/fig-3-1-meta-login.webp" alt="The Meta app's log-in window: the Meta logo, a language menu and a blue Log in button." loading="lazy">
+          </figure>
+          <p>Decide on a dedicated email address that you will use across all platforms and software required for VR development. Choose a strong password (at least 12 characters long) with numbers and special characters, even if some platforms do not enforce it.</p>
+          <p>This username, email address, and password combination will be referred to as your <b>credentials</b> throughout this guide.</p>
+          <div class="callout c-tip"><span class="ck">Tip</span><p>Use the same credentials across all accounts to avoid confusion.</p></div>
+          <div class="callout c-opt"><span class="ck">Optional</span><p>Write your credentials down and keep them in a secure place for reference.</p></div>
+        </section>
+
+        <section class="sec has-steps" id="software">
+          <h2 class="sec-h" data-short="Install Essential Software"><span class="hn">3.2</span>Install Essential Software</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Download and install the <a class="ext" href="https://www.oculus.com/download_app/?id=1582076955407037" target="_blank" rel="noopener">Meta Quest Link PC app</a>. Log in using your credentials.</li>
+              <li>Download and install <a class="ext" href="https://store.steampowered.com/about/" target="_blank" rel="noopener">Steam</a> (<dfn class="term" data-def="steam">what is Steam?</dfn>). Log in using your credentials.</li>
+              <li>Download and install your <a class="ext" href="https://www.nvidia.com/en-us/software/nvidia-app/" target="_blank" rel="noopener">GPU’s driver update software</a> (e.g., the <dfn class="term" data-def="geforce">NVIDIA app</dfn>, formerly GeForce Experience, if you are using an NVIDIA GPU).</li>
+              <li>Download and install <a class="ext" href="https://store.steampowered.com/app/250820/SteamVR/" target="_blank" rel="noopener">SteamVR</a>. This is only necessary if you run the simulation through SteamVR, as this guide does with the Meta Quest 2 (Chapter 06).</li>
+              <li>Download and install the <a class="ext" href="https://store.epicgames.com/en-US/download" target="_blank" rel="noopener">Epic Games Launcher</a> (<dfn class="term" data-def="epiclauncher">what is it?</dfn>). Log in using your credentials.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-3-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 3.2</span><span class="cap-t">Meta, NVIDIA and SteamVR: three of the five programs to install.</span></figcaption>
+            <img width="998" height="582" src="../assets/img/voting/fig-3-2-software.webp" alt="Logos of Meta, NVIDIA and SteamVR." loading="lazy">
+          </figure>
+          <p class="pre">Use your credentials to sign up and log in to each application.</p>
+        </section>
+
+        <section class="sec has-steps" id="prepare-headset">
+          <h2 class="sec-h" data-short="Prepare the VR Headset"><span class="hn">3.3</span>Prepare the VR Headset</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Turn on the <dfn class="term" data-def="quest">headset</dfn> and put it on.</li>
+              <li>Complete the initial setup process.</li>
+              <li>Log in using your Meta account credentials.</li>
+              <li>Ensure the headset has the latest software updates installed.</li>
+              <li>Confirm that the VR <dfn class="term" data-def="touch">controllers</dfn> have charged batteries.</li>
+              <li>Check that the high-speed VR cable is properly connected and that your PC recognizes the headset in the Meta Quest Link app.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-3-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 3.3</span><span class="cap-t">Meta Quest 2 headset and Touch controllers.</span></figcaption>
+            <img width="1774" height="1006" src="../assets/img/voting/fig-3-3-quest2.webp" alt="A white Meta Quest 2 headset with its two ring-shaped Touch controllers." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="install-ue">
+          <h2 class="sec-h" data-short="Install Unreal Engine"><span class="hn">3.4</span>Install Unreal Engine via Epic Games Launcher</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Open the Epic Games Launcher.</li>
+              <li>Click on the <b>Library</b> tab.</li>
+              <li>If you do not know your project’s Unreal Engine (UE) version:
+                <ol>
+                  <li>Go to your project folder.</li>
+                  <li>Open the <dfn class="term" data-def="uproject">.uproject file</dfn> in a text editor.</li>
+                  <li>Search for the <code>"EngineAssociation"</code> field.</li>
+                  <li>The value (e.g., <code>"5.2"</code> or <code>"4.27"</code>) is your UE version.</li>
+                </ol>
+              </li>
+              <li>Back in the Epic Games Launcher:
+                <ol>
+                  <li>Click the <b>+</b> icon next to <b>Engine Versions</b>.</li>
+                  <li>Choose the matching version number from the dropdown menu.</li>
+                  <li>Click <b>Install</b>.</li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-3-4">
+            <figcaption class="note cap"><span class="cap-n">Fig. 3.4</span><span class="cap-t">Finding and installing the project’s engine version.</span><span class="cap-h">Follow the green marks: the VRISE521 .uproject file in the project folder (top right); its line "EngineAssociation": "5.5" (bottom right); and the + button beside ENGINE VERSIONS, which adds a slot (here 5.3.2, ready to install).</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-3-4-engine-version.webp" alt="Three windows: the Epic Games Launcher library with engine versions 5.4.4, 5.5.4 and 5.3.2; a File Explorer window of the VRISE521 project folder; and the VRISE521.uproject file open in Notepad." loading="lazy">
+          </figure>
+          <div class="callout c-info"><span class="ck">Note</span><p>The installation process may take up to an hour, depending on your internet speed and system performance. Unreal Engine 5 requires at least 30 GB of storage for the base install. Additional plugins, assets, or templates will increase this size.</p></div>
+          <div class="callout c-done"><span class="ck">Done</span><p>Once Unreal Engine finishes installing, your one-time setup is complete!</p></div>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 04 BEFORE YOU START ===================== -->
+    <section class="chapter" id="ch-before" data-num="04" data-title="Before You Start" data-short="Before You Start">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">04</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 04 · Square #1</span>
+          <h2 class="op-title">Before You Start</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="naming">
+          <h2 class="sec-h" data-short="Naming Convention"><span class="hn">4.1</span>Establish a Clear Naming Convention (Nomenclature)</h2>
+          <figure class="fig inline" id="fig-4-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 4.1</span><span class="cap-t">Best practices for naming assets in Unreal Engine (<a class="cite ay" data-ref="unrealdirective">Unreal Directive</a>).</span><span class="cap-h">Each asset type (AI Controller, Ability Set, Aim Offset and so on) gets its own prefix, such as AIC_ or AS_, with an example name.</span></figcaption>
+            <img width="1771" height="920" src="../assets/img/voting/fig-4-1-naming.webp" alt="A web page titled Best practices for naming assets in Unreal Engine, with a table of asset types and their prefixes." loading="lazy">
+          </figure>
+          <p>It is essential to develop a consistent file and object <dfn class="term" data-def="naming">naming convention</dfn> right from the beginning. VR environments often contain hundreds of assets, making it difficult to locate and manage objects without organized names.</p>
+          <p><a class="ext" href="https://unrealdirective.com/resources/project-standards/asset-naming/" target="_blank" rel="noopener">Naming conventions help</a> with searching and selecting multiple objects using the search tool, streamlining collaboration within a team, and ensuring consistency across platforms and file formats (<a class="cite ay" data-ref="unrealdirective">Unreal Directive</a>).</p>
+          <div class="callout c-tip"><span class="ck">Tip</span><p>Use standardized prefixes like <code>SM_</code> for <dfn class="term" data-def="staticmesh">Static Mesh</dfn>, <code>M_</code> for <dfn class="term" data-def="material">Material</dfn>, <code>BP_</code> for Blueprint, etc. Epic lists the full set in its <a class="ext" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/recommended-asset-naming-conventions-in-unreal-engine-projects" target="_blank" rel="noopener">recommended asset naming conventions</a> (<a class="cite ay" data-ref="epicnaming">Epic Games</a>).</p></div>
+        </section>
+
+        <section class="sec" id="folders">
+          <h2 class="sec-h" data-short="Folder Hierarchy"><span class="hn">4.2</span>Set Up a Logical Folder Hierarchy</h2>
+          <figure class="fig inline" id="fig-4-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 4.2</span><span class="cap-t">Folders and names at work in the Outliner.</span><span class="cap-h">The URI_Props folder holds a Signage folder, and every part of the standing sign starts with URI_Standing_Sign_, so a single search finds them all.</span></figcaption>
+            <img width="1108" height="436" src="../assets/img/voting/fig-4-2-outliner.webp" alt="Unreal Editor: a sign board selected in the gym, and the Outliner showing folders Level, Lighting, PointLights, Props, SpotLights and URI_Props, with a Signage folder of URI_Standing_Sign parts." loading="lazy">
+          </figure>
+          <p>Keep all project files (models, textures, blueprints, references) in a single master folder. Within that folder, create a structured hierarchy (e.g., <code>/Assets</code>, <code>/Maps</code>, <code>/Textures</code>, <code>/Blueprints</code>).</p>
+          <p>Doing so enables easy navigation, searchability, team collaboration, file sharing, backup, and <dfn class="term" data-def="versioncontrol">version control</dfn>.</p>
+        </section>
+
+        <section class="sec" id="expectations">
+          <h2 class="sec-h" data-short="Project Expectations"><span class="hn">4.3</span>Define Project Expectations &amp; Make Early Decisions</h2>
+          <figure class="fig inline" id="fig-4-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 4.3</span><span class="cap-t">The essentials first: voting booths, tables and chairs placed in the gym.</span></figcaption>
+            <img width="1421" height="546" src="../assets/img/voting/fig-4-3-gym-layout.webp" alt="Wide view of the virtual gym: rows of voting booths and tables with chairs on the basketball court, bleachers on both sides." loading="lazy">
+          </figure>
+          <p>Before starting development, clearly define the scope of your project. Ask: what is the core objective of this simulation? Stick to the essentials. It is easy to get sidetracked by exciting ideas, but too many features can lead to wasted time, lost focus, and performance issues (<dfn class="term" data-def="scopecreep">scope creep</dfn>).</p>
+          <p>Start with a <dfn class="term" data-def="mvp">minimum viable product (MVP)</dfn>. Refine later if time and resources allow.</p>
+          <p>If you are not ready to plan extensively, it is okay to experiment or explore to get familiar with the tools, but always come back to your project goals.</p>
+        </section>
+
+        <section class="sec" id="plan">
+          <h2 class="sec-h" data-short="Plan Before Executing"><span class="hn">4.4</span>Plan Before Executing</h2>
+          <figure class="fig inline" id="fig-4-4">
+            <figcaption class="note cap"><span class="cap-n">Fig. 4.4</span><span class="cap-t">Voting diagram B: the polling station planned on paper over a basketball court diagram.</span><span class="cap-h">Booths B1 to B12 line the left; check-in tables (A-M and N-Z) sit in the middle. DP1 to DP5 are decision points, each with a voter’s question (DP1: where do I vote or check in? DP5: where do I exit?). Signage is to be placed at each decision point.</span></figcaption>
+            <img width="1155" height="893" src="../assets/img/voting/fig-4-4-layout-sketch.webp" alt="Hand-drawn polling station plan on a basketball court diagram, with booths, check-in tables, decision points and handwritten notes." loading="lazy">
+          </figure>
+          <p>Layout planning is crucial before diving into Unreal Engine. In our case, this means planning the placement of elements like voting booths, tables and chairs, ballot collection stations, signage, and direction markers.</p>
+          <p>Instead of immediately jumping into 3D modeling, use 2D tools like <dfn class="term" data-def="illustrator">Adobe Illustrator</dfn>, <dfn class="term" data-def="figma">Figma</dfn>, or even pen and paper.</p>
+          <p>Sketch the basic floor plan quickly; it is much faster to iterate on paper or in 2D software. Planning in 2D saves time, effort, and computing resources, especially if your computer has limited power. Once the layout is ready, you can drag and drop assets into place in Unreal Engine using the plan as a guide.</p>
+          <p class="big-p">Think of it this way: moving an object in a 2D sketch takes <em>milliseconds</em>. In 3D, it might take several minutes, especially on slower machines.</p>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 05 IMPORTING THE PROJECT FOLDER ===================== -->
+    <section class="chapter" id="ch-import-project" data-num="05" data-title="Importing the VR Project Folder" data-short="Importing the Project">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">05</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 05 · Housewarming</span>
+          <h2 class="op-title">Importing the VR Project Folder into UE</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="locate-folder">
+          <h2 class="sec-h" data-short="Locate the Unreal Projects Folder"><span class="hn">5.1</span>Locate the Unreal Projects Folder on Your Computer</h2>
+          <figure class="fig inline" id="fig-5-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 5.1</span><span class="cap-t">The Unreal Projects folder in Documents.</span><span class="cap-h">The path bar reads Documents › Unreal Projects; the green arrow marks a project folder. Every folder here appears under My Projects in the launcher.</span></figcaption>
+            <img width="1919" height="501" src="../assets/img/voting/fig-5-1-projects-folder.webp" alt="File Explorer open at Documents, Unreal Projects, listing project folders; a green arrow points at one of them." loading="lazy">
+          </figure>
+          <p>By default, Unreal Engine saves your projects in:<br><code>Documents › Unreal Projects › [Your Project Name]</code></p>
+          <p>If you have chosen a different save location, look for a folder named “Unreal Projects.” It will contain all your project folders that appear under <b>My Projects</b> in the <dfn class="term" data-def="epiclauncher">Epic Games Launcher</dfn>.</p>
+        </section>
+
+        <section class="sec has-steps" id="copy-folder">
+          <h2 class="sec-h" data-short="Copy the Project Folder"><span class="hn">5.2</span>Copy the Project Folder into the Unreal Projects Directory</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Paste the entire project folder (the one you received or downloaded) into the Unreal Projects folder.</li>
+            </ol>
+          </div>
+          <p>Example folder structure:<br><code>Documents › Unreal Projects › URI_Votes_Final</code></p>
+          <div class="callout c-tip"><span class="ck">Tip</span><p>Make sure the folder contains a <dfn class="term" data-def="uproject">.uproject file</dfn>. That confirms it is a valid Unreal project.</p></div>
+        </section>
+
+        <section class="sec has-steps" id="restart-launcher">
+          <h2 class="sec-h" data-short="Restart the Epic Games Launcher"><span class="hn">5.3</span>Restart the Epic Games Launcher</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Open the Epic Games Launcher (or restart it if it was already running).</li>
+              <li>Navigate to the <b>Library</b> tab.</li>
+              <li>Your imported project should now appear under <b>My Projects</b>.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="sec has-steps" id="open-project">
+          <h2 class="sec-h" data-short="Open the Project"><span class="hn">5.4</span>Open the Project</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Double-click the project thumbnail to launch it.</li>
+              <li>Unreal Engine may take several minutes to open the project as it prepares support files, loads assets, compiles shaders, and applies environment settings.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-5-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 5.2</span><span class="cap-t">Unreal Editor 5.5.4 opening the VRISE521 project.</span><span class="cap-h">The percentage at the bottom left counts up while support files, assets and shaders load.</span></figcaption>
+            <img width="720" height="370" src="../assets/img/voting/fig-5-2-ue-splash.webp" alt="Unreal Editor splash screen: the glowing Unreal logo over a desert at dusk, with the text Unreal Editor, VRISE521, Unreal Editor 5.5.4, 0% Initializing." loading="lazy">
+          </figure>
+          <div class="callout c-info"><span class="ck">Note</span><p>This process may vary depending on your system’s performance.</p></div>
+        </section>
+
+        <section class="sec has-steps" id="compile">
+          <h2 class="sec-h" data-short="Texture and Lighting Compilation"><span class="hn">5.5</span>Wait for Texture and Lighting Compilation</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Once the project opens in the UE <dfn class="term" data-def="viewport">Viewport</dfn>, Unreal will continue to compile <dfn class="term" data-def="shader">shaders</dfn> and prepare textures in the background.</li>
+              <li>Wait until the “Compiling Shaders” progress notice in the bottom-right corner disappears before you start working.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="sec has-steps" id="transfer">
+          <h2 class="sec-h" data-short="Sharing or Transferring the Project"><span class="hn">5.6</span>Sharing or Transferring the Project to Another Computer</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <p class="lead">If you need to copy or move the project to a different machine:</p>
+            <ol>
+              <li>Copy the entire project folder (e.g., VRISE521).</li>
+              <li>Optional: compress the folder into a <dfn class="term" data-def="zip">.zip</dfn> file. This can make transfers faster and easier.</li>
+              <li>Paste the folder into the Unreal Projects directory on the new computer.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-5-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 5.3</span><span class="cap-t">A project tile in the Epic Games Launcher library.</span><span class="cap-h">Hover a tile to see its engine version (Unreal Engine 5.5) and the path to its .uproject file: the folder to copy.</span></figcaption>
+            <img width="1546" height="869" src="../assets/img/voting/fig-5-3-epic-library.webp" alt="Epic Games Launcher library with project tiles; the hovered tile shows Compatible with Unreal Engine 5.5 and the path to its .uproject file." loading="lazy">
+          </figure>
+          <p>Always verify that the new system has the same Unreal Engine version installed.</p>
+          <div class="callout c-warn"><span class="ck">Watch out</span><p>A USB drive formatted as FAT32 cannot hold a single file larger than 4 GB. If the .zip file is bigger than that, copy the folder uncompressed or reformat the drive as exFAT.</p></div>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 06 LAUNCHING THE SIMULATION ===================== -->
+    <section class="chapter" id="ch-launch" data-num="06" data-title="Launching the VR Simulation" data-short="Launching the Simulation">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">06</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 06 · Countdown</span>
+          <h2 class="op-title">Launching the VR Simulation in UE</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec has-steps" id="l-prepare">
+          <h2 class="sec-h" data-short="Prepare Your Headset"><span class="hn">6.1</span>Prepare Your Meta Quest 2 Headset</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Turn on your <dfn class="term" data-def="quest">VR headset</dfn>.</li>
+              <li>Ensure the battery is sufficiently charged.</li>
+              <li>Insert charged batteries into the VR controllers.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.1</span><span class="cap-t">Meta Quest 2 on charge.</span></figcaption>
+            <img width="1200" height="675" src="../assets/img/voting/fig-6-1-quest2.webp" alt="A white Meta Quest 2 headset on burlap with a USB-C charging cable plugged into its side." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-connect">
+          <h2 class="sec-h" data-short="Connect the Headset to Your PC"><span class="hn">6.2</span>Connect the Headset to Your PC</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Plug one end of the high-speed VR cable into the headset (preferably the 90° angled end).</li>
+              <li>Connect the other end to your computer’s fastest <dfn class="term" data-def="usb">USB-C</dfn> port for optimal performance.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.2</span><span class="cap-t">The link cable’s angled end in the headset.</span><span class="cap-h">The 90° plug keeps the cable flat against the side of the headset and out of the way of the strap.</span></figcaption>
+            <img width="1308" height="1308" src="../assets/img/voting/fig-6-2-cable.webp" alt="A white Quest headset seen from the side, with a black cable's angled plug in the port on its left side, the cable running back along the strap." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-wake">
+          <h2 class="sec-h" data-short="Wake the Controllers"><span class="hn">6.3</span>Wake the Controllers</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Press any button on each <dfn class="term" data-def="touch">controller</dfn> to wake it up.</li>
+              <li>Ensure they are powered and responsive.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.3</span><span class="cap-t">Waking a Touch controller.</span></figcaption>
+            <img width="1024" height="576" src="../assets/img/voting/fig-6-3-controller.webp" alt="Close-up of a white Touch controller with hand-drawn motion marks around its buttons and trigger." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-boundary">
+          <h2 class="sec-h" data-short="Set the Boundary"><span class="hn">6.4</span>Put on the Headset and Set the Boundary</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Wear the headset and follow the on-screen instructions.</li>
+              <li>Set up a stationary <dfn class="term" data-def="boundary">boundary</dfn>.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-4">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.4</span><span class="cap-t">Setting the floor and boundary with a controller.</span></figcaption>
+            <img width="1280" height="720" src="../assets/img/voting/fig-6-4-boundary.webp" alt="Illustration of a person crouching and touching the floor with a controller, with glowing blue markers on the floor." loading="lazy">
+          </figure>
+          <div class="callout c-warn c-safety"><span class="ck">Safety</span><p>It is recommended to sit on a swivel chair during the experience.</p></div>
+        </section>
+
+        <section class="sec has-steps" id="l-linkapp">
+          <h2 class="sec-h" data-short="Launch the Meta Quest Link App"><span class="hn">6.5</span>Launch the Meta Quest Link App</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Open the Meta Quest Link desktop application on your computer.</li>
+              <li>You should see your headset listed and marked as “Connected,” but with a red cross.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-5">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.5</span><span class="cap-t">The Meta Quest Link app, Devices page.</span><span class="cap-h">Quest 2 is listed, and its row says Connected, but with a red mark: Link is not running yet.</span></figcaption>
+            <img width="1584" height="991" src="../assets/img/voting/fig-6-5-link-app.webp" alt="Meta Quest Link app, Devices page: Meta Quest 2 listed as Active, with a Quest 2 row marked Connected and a red dot." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-questlink">
+          <h2 class="sec-h" data-short="Enable Quest Link Mode"><span class="hn">6.6</span>Enable Quest Link Mode</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Inside the headset, open the notifications menu.</li>
+              <li>Tap to <a class="ext" href="https://www.lifewire.com/vr-gaming-with-quest-2-wireless-pc-connection-8751238" target="_blank" rel="noopener">enable Quest Link</a> (<dfn class="term" data-def="questlink">what is Quest Link?</dfn>).</li>
+              <li>The view will shift from the Quest Home environment to the PC Link environment.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-6">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.6</span><span class="cap-t">The Quest Link panel inside the headset.</span><span class="cap-h">The circled toggle is Use Air Link, the wireless option. Below it the panel searches for your PC; Launch starts Link.</span></figcaption>
+            <img width="750" height="423" src="../assets/img/voting/fig-6-6-quest-link.webp" alt="Inside the headset: a Quest Link panel with a Use Air Link toggle circled in yellow, a message Searching for PCs, and Launch and Cancel buttons." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-verify">
+          <h2 class="sec-h" data-short="Verify the Connection"><span class="hn">6.7</span>Verify the Connection</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Remove the headset and check your Meta Quest Link app.</li>
+              <li>It should now display “Connected.”</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-7">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.7</span><span class="cap-t">Quest 2 connected.</span><span class="cap-h">The headset panel now shows a green Connected, over USB 3.</span></figcaption>
+            <img width="1584" height="991" src="../assets/img/voting/fig-6-7-connected.webp" alt="Meta Quest Link app with a Quest 2 detail panel open: a green Connected status and connection type USB 3." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-steamvr">
+          <h2 class="sec-h" data-short="Launch SteamVR"><span class="hn">6.8</span>Launch SteamVR</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Open the <dfn class="term" data-def="steam">Steam</dfn> application on your PC.</li>
+              <li>Go to the <b>Library</b>, find <dfn class="term" data-def="steamvr">SteamVR</dfn>, and click <b>Play</b>.</li>
+              <li>A small SteamVR status box will appear on your screen.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-8">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.8</span><span class="cap-t">SteamVR running from the Steam library.</span><span class="cap-h">While SteamVR runs, its Play button becomes Stop, and the small status box appears at the bottom center of the screen.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-6-8-steamvr.webp" alt="Steam library page for SteamVR with a blue Stop button, and the small SteamVR status box at the bottom center showing headset and controller icons." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-confirm">
+          <h2 class="sec-h" data-short="Confirm SteamVR Connection"><span class="hn">6.9</span>Confirm SteamVR Connection</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Wait for the headset and controller icons to turn green in the SteamVR status box.</li>
+              <li>If you are wearing the headset, you should now be inside the SteamVR environment.</li>
+              <li>You can interact with the space: try using the right controller to paint in 3D.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="sec has-steps" id="l-open">
+          <h2 class="sec-h" data-short="Open the Unreal Engine Project"><span class="hn">6.10</span>Open the Unreal Engine Project</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Bring up the Epic Games Launcher.</li>
+              <li>Navigate to your project in the <b>Library</b> tab and open it.</li>
+              <li>Wait for the Unreal Engine viewport to fully load.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-9">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.9</span><span class="cap-t">Opening the project from My Projects.</span><span class="cap-h">The green arrow points to the project tile (VRISE521); double-click it.</span></figcaption>
+            <img width="1546" height="869" src="../assets/img/voting/fig-6-9-open-project.webp" alt="Epic Games Launcher, My Projects: a green arrow points to the highlighted VRISE521 project tile." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-vrpreview">
+          <h2 class="sec-h" data-short="Enter VR Simulation Mode"><span class="hn">6.11</span>Enter VR Simulation Mode</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>In the Unreal Engine toolbar, click the <b>⋮</b> menu (Change Play Mode and Play Settings) beside the green <b>Play</b> button.</li>
+              <li>Select <dfn class="term" data-def="vrpreview">VR Preview</dfn>.</li>
+              <li>A new window will appear, showing what the VR user is seeing inside the headset.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-10">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.10</span><span class="cap-t">The play menu with VR Preview selected.</span><span class="cap-h">Open the menu beside the green Play button in the toolbar; VR Preview carries the tooltip “Play this level in VR.”</span></figcaption>
+            <img width="1499" height="713" src="../assets/img/voting/fig-6-10-vr-preview-menu.webp" alt="Unreal Editor with the play options menu open from the toolbar; VR Preview is highlighted, with the tooltip Play this level in VR." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="l-explore">
+          <h2 class="sec-h" data-short="Explore the Environment"><span class="hn">6.12</span>Explore the Environment</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Put on your headset.</li>
+              <li>Use the right joystick to move around and look freely within the virtual space.</li>
+              <li>Press the <kbd>Esc</kbd> key on your keyboard to exit VR Preview mode.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-6-11">
+            <figcaption class="note cap"><span class="cap-n">Fig. 6.11</span><span class="cap-t">The VR Preview window: what the headset wearer sees.</span></figcaption>
+            <img width="1282" height="752" src="../assets/img/voting/fig-6-11-vr-preview.webp" alt="The VR Preview window: a first-person view across the empty gym floor toward a basketball hoop and bleachers." loading="lazy">
+          </figure>
+          <div class="callout c-warn c-imp"><span class="ck">Important</span><p>Steps 6.1 to 6.12 must be completed in order each time you run the simulation. Missing a step will not cause harm but might lead to connection or performance issues. If that happens, simply start over from step 6.5; it usually takes just a few extra minutes.</p></div>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 07 IMPORTING 3D ASSETS ===================== -->
+    <section class="chapter" id="ch-assets" data-num="07" data-title="Importing 3D Assets" data-short="Importing 3D Assets">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">07</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 07 · Moving in</span>
+          <h2 class="op-title">Importing 3D Assets into UE</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="formats">
+          <h2 class="sec-h" data-short="File Format Compatibility"><span class="hn">7.1</span>Understand File Format Compatibility</h2>
+          <p>Before creating or importing <dfn class="term" data-def="asset">assets</dfn>, check the export/import file format compatibility between your 3D modeling software and Unreal Engine.</p>
+          <p>The <dfn class="term" data-def="glb">.glb</dfn> format (the binary form of glTF, the GL Transmission Format) is one of the easiest and most efficient formats to work with in UE5: it supports embedded <dfn class="term" data-def="texture">textures</dfn> and <dfn class="term" data-def="material">materials</dfn>, so there is no need to set up materials separately after import, and it is lightweight, which is ideal for VR environments.</p>
+        </section>
+
+        <section class="sec has-steps" id="download-assets">
+          <h2 class="sec-h" data-short="Downloading Assets Online"><span class="hn">7.2</span>Downloading Assets from Online Sources</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Go to <a class="ext" href="https://www.fab.com" target="_blank" rel="noopener">Fab</a> (<dfn class="term" data-def="fab">what is Fab?</dfn>).</li>
+              <li>Log in with your credentials.</li>
+              <li>Navigate to <b>Discover › Unreal Engine › 3D</b>.</li>
+              <li>Use the search bar to find specific assets. Try using varied and relevant keywords.</li>
+              <li>Filter results by price: check the <b>Free</b> option if you do not want to buy assets.</li>
+              <li>Once you find the asset, click <b>Add to My Library</b>; a blue <b>View in Launcher</b> button will appear (Fig. 7.2).</li>
+              <li>Open the Epic Games Launcher and go to the <b>Library</b> section.</li>
+              <li>Scroll to the <b>Fab Library</b> at the bottom and click refresh.</li>
+              <li>Find your asset and click <b>Add to Project</b>.</li>
+              <li>Select the relevant UE project. The launcher copies the asset into the project’s <code>Content</code> folder, in a folder named after the asset pack. You can then drag and drop the asset into the scene.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-7-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 7.1</span><span class="cap-t"><span class="cap-l">(a) Fab: the Discover page</span><span class="cap-l">(b) Fab: Unreal Engine 3D assets filtered by price</span></span><span class="cap-h">In (b), the Price filter is open with Free ticked.</span></figcaption>
+            <div class="parts pl-out">
+              <div class="parts-row"><div class="part" style="--ar:1.778"><img width="1920" height="1080" src="../assets/img/voting/fig-7-1-fab-home.webp" alt="(a) Fab website Discover page with filters for platforms and product types on the left and a featured banner." loading="lazy"><span class="pl" aria-hidden="true">a</span></div></div>
+              <div class="parts-row"><div class="part" style="--ar:1.778"><img width="1920" height="1080" src="../assets/img/voting/fig-7-1-fab-free.webp" alt="(b) Fab Unreal Engine page listing 3D assets, with the Price filter open and Free ticked." loading="lazy"><span class="pl" aria-hidden="true">b</span></div></div>
+            </div>
+          </figure>
+          <figure class="fig inline" id="fig-7-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 7.2</span><span class="cap-t">An asset page on Fab after Add to My Library.</span><span class="cap-h">“Saved in My Library” confirms it; the blue View in Launcher button opens the asset in the Epic Games Launcher. Included formats lists what you receive.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-7-2-fab-asset.webp" alt="A Fab asset page for Light Foliage: a grassy landscape preview, a Saved in My Library message and blue View in Launcher and View in My Library buttons." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="blender-export">
+          <h2 class="sec-h" data-short="Exporting from Blender"><span class="hn">7.3</span>Exporting Your Own 3D Models from Blender (or Similar Tools)</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Finish modeling and texturing your object.</li>
+              <li>Merge parts that use the same material into a single mesh (when appropriate).</li>
+              <li>Apply all <dfn class="term" data-def="transforms">transforms</dfn> and <dfn class="term" data-def="modifiers">modifiers</dfn>.</li>
+              <li>Go to <b>File › Export › glTF 2.0 (.glb)</b> (<dfn class="term" data-def="gltfexport">exporter options</dfn>).</li>
+              <li>In the export dialog, keep <b>+Y Up</b> checked (under <b>Transform</b>) so the object is oriented correctly, and check <b>Apply Modifiers</b> (under <b>Data › Mesh</b>).</li>
+              <li>Save the .glb file using the naming convention.</li>
+              <li>Save your .blend project file as well (<kbd>Ctrl</kbd> + <kbd>S</kbd>).</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-7-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 7.3</span><span class="cap-t">Exporting from Blender 4.2: File › Export › glTF 2.0 (.glb/.gltf).</span><span class="cap-h">The green arrow points to the glTF 2.0 entry. The model is a standing sign board, and every part in the Outliner (top right) carries the TXD_ prefix.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-7-3-blender-export.webp" alt="Blender 4.2 with the File, Export menu open and glTF 2.0 (.glb/.gltf) highlighted by a green arrow; a standing sign board model is selected in the viewport." loading="lazy">
+          </figure>
+          <p class="pre">If you are designing your own assets in <dfn class="term" data-def="blender">Blender</dfn>, make sure you use consistent naming conventions for the model files, <dfn class="term" data-def="mesh">meshes</dfn>, and textures before export.</p>
+          <p class="pre">Optimize your model by merging meshes that use the same material (if the object is stationary); otherwise each part arrives in UE as a separate object, adding files and clutter. Try to keep the polygon count as low as possible, and maintain a clear folder hierarchy for easy navigation later.</p>
+        </section>
+
+        <section class="sec has-steps" id="ue-import">
+          <h2 class="sec-h" data-short="Importing into Unreal Engine"><span class="hn">7.4</span>Importing the Asset into Unreal Engine</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Open the target UE5 project.</li>
+              <li>In the <dfn class="term" data-def="contentbrowser">Content Browser</dfn>, navigate to or create a new folder for the asset (e.g., <code>Assets/Furniture/Chair_Poll_01</code>).</li>
+              <li>Double-click to enter the folder.</li>
+              <li>Click <b>Import</b> and locate your saved .glb file.</li>
+              <li>Click <b>Open</b> to import.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-7-4">
+            <figcaption class="note cap"><span class="cap-n">Fig. 7.4</span><span class="cap-t">Importing an asset into Unreal Engine.</span><span class="cap-h">Left arrow: the folder tree in the Content Browser. Middle arrow: the Import button. The path bar (Content › DekogonGym › Meshes › URI_Votes) shows where the asset lands. Right arrow: the imported stool dragged from the browser into the scene.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-7-4-ue-import.webp" alt="Unreal Editor with the gym level open; green arrows point to the Content Browser folder tree, the Import button, and from an imported stool in the browser up to the stool placed in the scene." loading="lazy">
+          </figure>
+          <p>UE will automatically import meshes, textures, and materials in one go.</p>
+        </section>
+
+        <section class="sec has-steps" id="place-asset">
+          <h2 class="sec-h" data-short="Placing the Asset"><span class="hn">7.5</span>Placing the Asset in Your Environment</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Use the search bar to quickly find specific files by name.</li>
+              <li>Select one or more parts (use <kbd>Ctrl</kbd> + click for multi-select) and drag them into the scene.</li>
+            </ol>
+          </div>
+          <p class="pre">Once imported, all associated files (mesh, textures, materials) will appear in the folder.</p>
+        </section>
+
+        <section class="sec" id="outliner">
+          <h2 class="sec-h" data-short="Managing Assets in the Outliner"><span class="hn">7.6</span>Managing Assets in the Outliner Panel</h2>
+          <p>Once placed, the assets appear in the <dfn class="term" data-def="outliner">Outliner panel</dfn>.</p>
+          <p>In the Outliner panel, you can quickly find and select objects using the naming convention, avoid misclicks or wrong object selection in the viewport, and easily organize and group items in your scene.</p>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 08 MOVING SIGNAGE AND OBJECTS ===================== -->
+    <section class="chapter" id="ch-move" data-num="08" data-title="Moving Signage and Objects" data-short="Moving Signage and Objects">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">08</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 08 · Rearranging</span>
+          <h2 class="op-title">Moving Signage and Objects in UE</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec has-steps" id="select">
+          <h2 class="sec-h" data-short="Select the Desired Object"><span class="hn">8.1</span>Select the Desired Object</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <p class="lead">If you still have your previous selections active, continue with them. If not:</p>
+            <ol>
+              <li>Hold the <kbd>Ctrl</kbd> key and left-click on each object you want to select.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-8-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 8.1</span><span class="cap-t">A table selected in the viewport and in the Outliner.</span><span class="cap-h">The selection is outlined in the viewport and highlighted in the Outliner list (right) as SM_Announcer_Table_01a5.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-8-1-select.webp" alt="Unreal Editor: a folding table selected in the gym, outlined in orange, and the same object highlighted in the Outliner list." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="focus">
+          <h2 class="sec-h" data-short="Focus on the Selected Objects"><span class="hn">8.2</span>Focus on the Selected Objects</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>With your objects selected, move your cursor to the graphical <dfn class="term" data-def="viewport">viewport</dfn>.</li>
+              <li>Press the <kbd>F</kbd> key on your keyboard. This will focus the camera on your selection.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-8-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 8.2</span><span class="cap-t">After pressing F: the camera focuses on the selection.</span><span class="cap-h">The translation gizmo’s arrows sit at the table’s center: red X, green Y, blue Z.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-8-2-focus.webp" alt="The camera zoomed in on the selected folding table, with red, green and blue arrows of the translation gizmo at its center." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="move">
+          <h2 class="sec-h" data-short="Move the Objects"><span class="hn">8.3</span>Move the Objects</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Click, hold, and drag any arrow to move the object in that direction.</li>
+            </ol>
+          </div>
+          <p class="pre">Once focused, you will see the <dfn class="term" data-def="gizmo">translation gizmo</dfn> with three arrows (red, green, and blue), each representing a direction: red = X-axis, green = Y-axis, blue = Z-axis.</p>
+        </section>
+
+        <section class="sec has-steps" id="transform-modes">
+          <h2 class="sec-h" data-short="Switch Transform Modes"><span class="hn">8.4</span>Switch Between Transform Modes</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>In the top-right corner of the viewport, you will find icons to change the transform mode: Translation tool (move), Rotation tool (rotate), and Scale tool (resize).</li>
+              <li>Click on the appropriate icon to switch modes.</li>
+              <li>Click, hold, and drag the handles to rotate or scale the object in that direction.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-8-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 8.3</span><span class="cap-t">Rotation mode.</span><span class="cap-h">The green arrow points to the transform icons at the top right of the viewport. The curved red, green and blue handles rotate the table about each axis.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-8-3-rotate.webp" alt="The selected table with curved red, green and blue rotation handles; a green arrow points to the transform icons at the top right of the viewport." loading="lazy">
+          </figure>
+          <p>The corresponding gizmo (also called a transform widget or manipulator) will appear. For rotation, curved handles will appear around the object; for scaling, cubes will appear along the axes.</p>
+          <div class="callout c-done"><span class="ck">Done</span><p>You are now able to select and move objects around the scene!</p></div>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== 09 CHANGING THE SIGNAGE ===================== -->
+    <section class="chapter" id="ch-signage" data-num="09" data-title="Changing the Signage" data-short="Changing the Signage">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">09</span>
+        <div class="wrap">
+          <span class="op-kicker">Chapter 09 · Switching</span>
+          <h2 class="op-title">Changing the Signage</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec has-steps" id="select-board">
+          <h2 class="sec-h" data-short="Select the Sign Board"><span class="hn">9.1</span>Select the Sign Board</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>In the <dfn class="term" data-def="viewport">viewport</dfn>, click on the sign board you want to change.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-9-1">
+            <figcaption class="note cap"><span class="cap-n">Fig. 9.1</span><span class="cap-t">A sign board at the N-Z check-in table.</span><span class="cap-h">The board’s parts are selected in the viewport and highlighted in the Outliner; the Content Browser below shows the available signage, arrows included.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-9-1-signboard.webp" alt="Unreal Editor: a large sign board reading Check in, Regístrese, N-Z beside a check-in table with two people; signage materials fill the Content Browser below." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="focus-paper">
+          <h2 class="sec-h" data-short="Focus on the Paper Asset"><span class="hn">9.2</span>Focus on the Paper Asset</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>In the <dfn class="term" data-def="outliner">Outliner</dfn> or directly in the viewport, select the letter-sized paper attached to the sign board.</li>
+              <li>Press <kbd>F</kbd> on your keyboard to focus on the selected object.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="sec has-steps" id="material-slot">
+          <h2 class="sec-h" data-short="Access the Material Slot"><span class="hn">9.3</span>Access the Material Slot</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>With the paper selected, go to the <dfn class="term" data-def="details">Details panel</dfn> on the right.</li>
+              <li>Look for the <b>Materials</b> section.</li>
+              <li>Click on the dropdown next to the current <dfn class="term" data-def="material">material</dfn> name.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-9-2">
+            <figcaption class="note cap"><span class="cap-n">Fig. 9.2</span><span class="cap-t">The Materials section of the Details panel.</span><span class="cap-h">The arrow runs from the chosen signage in the Content Browser to the slot’s “Use Selected Asset from Content Browser” button.</span></figcaption>
+            <img width="1920" height="1080" src="../assets/img/voting/fig-9-2-material-slot.webp" alt="Unreal Editor: a green arrow runs from a signage material in the Content Browser to the material slot in the Details panel, where a tooltip reads Use Selected Asset from Content Browser." loading="lazy">
+          </figure>
+        </section>
+
+        <section class="sec has-steps" id="choose-signage">
+          <h2 class="sec-h" data-short="Choose the New Signage"><span class="hn">9.4</span>Choose the New Signage</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>If you remember the name of the new signage material, type it into the search bar and select it.</li>
+              <li>If you are unsure of the name:
+                <ol>
+                  <li>Open the <dfn class="term" data-def="contentbrowser">Content Browser</dfn>.</li>
+                  <li>Navigate to the folder where signage materials are stored.</li>
+                  <li>Look at the material previews to find the correct one.</li>
+                </ol>
+              </li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="sec has-steps" id="apply-material">
+          <h2 class="sec-h" data-short="Apply the New Material"><span class="hn">9.5</span>Apply the New Material</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <p class="lead">Once you have selected the desired signage material in the Content Browser:</p>
+            <ol>
+              <li>Go back to the Details panel.</li>
+              <li>Click the circled left-arrow icon (Use Selected Asset from Content Browser) next to the material slot.</li>
+            </ol>
+          </div>
+          <figure class="fig inline pre" id="fig-9-3">
+            <figcaption class="note cap"><span class="cap-n">Fig. 9.3</span><span class="cap-t">Applying the selected signage.</span><span class="cap-h">Bottom: the selected material, highlighted in blue. Right: the green arrow points to the left-arrow button beside the material slot.</span></figcaption>
+            <img width="1244" height="849" src="../assets/img/voting/fig-9-3-apply.webp" alt="Close-up: a selected signage material highlighted in blue in the Content Browser, and a green arrow to the left-arrow button beside the material slot in the Details panel." loading="lazy">
+          </figure>
+          <p>This will assign the selected material to the paper asset.</p>
+          <figure class="fig inline" id="fig-9-4">
+            <figcaption class="note cap"><span class="cap-n">Fig. 9.4</span><span class="cap-t">The changed sign: “Mark your ballot / Marque su boleta”.</span></figcaption>
+            <img width="1411" height="544" src="../assets/img/voting/fig-9-4-result.webp" alt="The sign board now reads Mark your ballot, Marque su boleta, beside the check-in tables in the gym." loading="lazy">
+          </figure>
+          <div class="callout c-done"><span class="ck">Done</span><p>That’s it! You have successfully changed the signage on the board.</p></div>
+        </section>
+
+        <section class="sec has-steps" id="new-signage">
+          <h2 class="sec-h" data-short="Importing New Signage"><span class="hn">9.6</span>Importing New Signage</h2>
+          <div class="stepbox">
+            <span class="sk">Steps</span>
+            <ol>
+              <li>Follow the same steps listed in the asset import section (<a href="#formats">sections 7.1 to 7.6</a>).</li>
+              <li>Import the new signage materials into the correct folder within the Content Browser for easy access.</li>
+            </ol>
+          </div>
+        </section>
+
+      </div></div>
+    </section>
+
+    <!-- ===================== R GLOSSARY & SOURCES ===================== -->
+    <section class="chapter" id="ch-refs" data-num="R" data-title="Glossary &amp; Sources" data-short="Sources">
+      <header class="opener">
+        <span class="op-num" aria-hidden="true">R</span>
+        <div class="wrap">
+          <span class="op-kicker">Back matter</span>
+          <h2 class="op-title">Glossary &amp; Sources</h2>
+        </div>
+      </header>
+      <div class="chapter-body"><div class="wrap">
+
+        <section class="sec" id="glossary">
+          <h2 class="sec-h" data-short="Glossary">Glossary</h2>
+          <dl class="gloss" id="gloss-list"></dl>
+        </section>
+        <section class="sec" id="references">
+          <h2 class="sec-h" data-short="Sources">Sources</h2>
+          <aside class="note block hint"><span class="nk">Links</span>“Link” opens the source page. Download links for the software are in section 3.2.</aside>
+          <ol class="refs" id="ref-list"></ol>
+        </section>
+        <nav class="pager" aria-label="Previous and next">
+          <a class="pg pv" href="../armband/" style="--accent:#d2481c">
+            <span class="label">← Previous project · 02</span>
+            <span class="pg-k">Master’s Thesis · Systems Engineering</span>
+            <span class="t">Design of small-scale flexible manufacturing system pipeline to make <em><span class="nw">e-textiles</span> customizable</em></span>
+          </a>
+          <a class="pg nx" href="../">
+            <span class="label">Home →</span>
+            <span class="pg-k">Research &amp; Design Portfolio</span>
+            <span class="t">Shubham <em>Chomal</em></span>
+          </a>
+        </nav>
+        <div class="colophon"><span>© Shubham Chomal · Polling Station VR Simulation Instructional Guide, ISE 521 Human Systems Engineering, 2025</span><span>Product photos and engine renders belong to their owners · Set in Segoe UI &amp; JetBrains Mono</span></div>
+
+      </div></div>
+    </section>
+  </main>
+</div>
+
+<script src="../assets/js/data-voting.js"></script>
+<script src="../assets/js/site.js"></script>
+<script>
+/* Table 2.1 as a checklist: a tick box per item, a progress bar, a count per group.
+   Ticks are kept in this browser only (localStorage); the page works without it. */
+(function () {
+  const t = document.getElementById("checklist"), bar = document.getElementById("ck-bar");
+  if (!t || !bar) return;
+  const KEY = "voting-checklist-v1";
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) {}
+  const rows = [], groups = [];
+  let g = null;
+  t.querySelectorAll("tbody tr").forEach(tr => {
+    if (tr.classList.contains("grp")) {
+      const th = tr.querySelector("th"), c = document.createElement("span");
+      c.className = "gc"; th.appendChild(c);
+      g = { tr, c, rows: [] }; groups.push(g); return;
+    }
+    const td = tr.cells[0], name = td.textContent.trim();
+    const id = "ck-" + name.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const lab = document.createElement("label"), box = document.createElement("input");
+    lab.className = "ck-item"; box.type = "checkbox"; box.checked = !!saved[id];
+    lab.append(box, document.createTextNode(name));
+    td.textContent = ""; td.appendChild(lab);
+    const r = { tr, box, id }; rows.push(r); if (g) g.rows.push(r);
+    box.addEventListener("change", update);
+    tr.addEventListener("click", e => {
+      if (e.target.closest("label, input, a, dfn")) return;
+      box.checked = !box.checked; update();
+    });
+  });
+  const count = bar.querySelector(".ck-count"), meter = bar.querySelector(".ck-meter span"), hide = bar.querySelector("[data-ck-hide]");
+  function update() {
+    const keep = {}; let n = 0;
+    rows.forEach(r => { r.tr.classList.toggle("is-done", r.box.checked); if (r.box.checked) { keep[r.id] = 1; n++; } });
+    groups.forEach(gr => {
+      const k = gr.rows.filter(r => r.box.checked).length;
+      gr.c.textContent = k + " / " + gr.rows.length;
+      gr.tr.classList.toggle("is-done", k === gr.rows.length);
+    });
+    count.textContent = n === rows.length ? "All " + n + " ready" : n + " of " + rows.length + " ready";
+    meter.style.width = (100 * n / rows.length).toFixed(1) + "%";
+    bar.classList.toggle("is-all", n === rows.length);
+    try { localStorage.setItem(KEY, JSON.stringify(keep)); } catch (e) {}
+  }
+  hide.addEventListener("click", () => {
+    const on = !t.classList.contains("hide-done");
+    t.classList.toggle("hide-done", on);
+    hide.setAttribute("aria-pressed", String(on));
+    hide.textContent = on ? "Show ticked" : "Hide ticked";
+  });
+  bar.querySelector("[data-ck-reset]").addEventListener("click", () => { rows.forEach(r => { r.box.checked = false; }); update(); });
+  bar.hidden = false;
+  update();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Thesis PDFs are kept locally and NOT published by default.
+# Delete the next line if you want visitors to be able to download them.
+*.pdf
+# Full-resolution originals: the pages use the optimized WebP copies in assets/img/<project>/.
+# Kept out of the repository (about 400 MB, and they include personal photos).
+assets/img/*/og_Images/
+.DS_Store
+Thumbs.db
+# Source GIF for the gloves hero (83 MB); the page uses assets/img/gloves/hero-turntable.webp.
+assets/img/gloves/Carousel_1.gif
