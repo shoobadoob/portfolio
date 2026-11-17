@@ -67,3 +67,7 @@ python -m http.server 8000
 - Figures were rendered from the thesis PDFs at about 216 dpi and saved as WebP in `assets/img/`.
 
 Fonts: Segoe UI for headings and text (a Windows system font; Mac and iOS visitors see their system font, San Francisco, instead) and JetBrains Mono from Google Fonts for labels. Charts use a color-blind-checked palette.
+
+## License
+
+Copyright (c) 2022-2026 Shubham Chomal. All rights reserved. No reuse without written permission; see [LICENSE](LICENSE). Third-party pictures and the bundled animation player keep their own owners and licenses.
